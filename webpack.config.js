@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-
   entry: './src/index.js',
 
   output: {
@@ -18,6 +17,14 @@ module.exports = {
         test: [/\.vert$/, /\.frag$/],
         use: 'raw-loader',
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|gif|jpeg)$/,
+        loader: ['file-loader'],
+      },
     ],
   },
 
@@ -27,5 +34,4 @@ module.exports = {
       WEBGL_RENDERER: JSON.stringify(true),
     }),
   ],
-
 };
