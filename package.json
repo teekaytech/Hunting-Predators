@@ -1,22 +1,23 @@
 {
-  "name": "phaser3-project-template-3",
+  "name": "hunting-predators",
   "version": "1.0.0",
-  "description": "A Phaser 3 Project Template",
+  "description": "A game application built with JavaScript, Webpack and Webpack",
   "main": "src/index.js",
   "scripts": {
     "build": "webpack",
+    "dev": "npm run dev",
     "start": "npm run build && webpack-dev-server --open"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://scottwestover@bitbucket.org/creativerendering/phaser3-template.git"
+    "url": "git+https://github.com/teekaytech/Hunting-Predators.git"
   },
   "license": "MIT",
-  "licenseUrl": "http://www.opensource.org/licenses/mit-license.php",
+  "licenseUrl": "https://github.com/teekaytech/Hunting-Predators/blob/development/LICENSE",
   "bugs": {
-    "url": "https://github.com/photonstorm/phaser3-project-template/issues"
+    "url": "https://github.com/teekaytech/Hunting-Predators/issues"
   },
-  "homepage": "https://github.com/photonstorm/phaser3-project-template#readme",
+  "homepage": "https://github.com/teekaytech/Hunting-Predators#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.11.5",
     "css-loader": "^2.1.1",
