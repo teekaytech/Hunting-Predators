@@ -11,6 +11,7 @@ export default class PreloaderScene extends Phaser.Scene {
 
   preload () {
     // add logo image
+    this.add.image(400, 300, 'background');
     this.add.image(400, 200, 'logo');
 
     // display progress bar
@@ -77,7 +78,7 @@ export default class PreloaderScene extends Phaser.Scene {
       this.ready();
     }.bind(this));
 
-    this.timedEvent = this.time.delayedCall(3000, this.ready, [], this);
+    this.timedEvent = this.time.delayedCall(20000, this.ready, [], this);
 
     // load assets needed in our game
     this.load.image('blueButton1', 'assets/ui/blue_button02.png');
