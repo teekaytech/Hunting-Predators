@@ -13,12 +13,16 @@ class MyLaser extends Phaser.Physics.Arcade.Sprite {
     this.setVelocityX(600);
   }
 
+  disableLaser() {
+    this.setActive(false);
+    this.setVisible(false);
+  }
+
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
 
     if (this.x > 800) {
-      this.setActive(false);
-      this.setVisible(false);
+      this.disableLaser();
     }
   }
 }

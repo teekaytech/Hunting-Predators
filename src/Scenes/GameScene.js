@@ -5,6 +5,7 @@ import Laser from '../Objects/Laser';
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super("Game");
+    this.score = 0;
   }
 
   preload() {
@@ -73,6 +74,8 @@ export default class GameScene extends Phaser.Scene {
     this.laserGroup = new Laser(this);
 
     this.physics.add.overlap(this.laserGroup, this.predators, this.destroyPredator, null, this);
+
+    this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '20px', fill: '#fff' });
   }
 
   resetPredatorPos(pred) {
@@ -89,8 +92,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   destroyPredator(pointer, gameObject) {
-    gameObject.setTexture('explosion');
-    gameObject.play('explode');
+    gameObject.destroy();
+    pointer.disableLaser();
+    this.score += 10;
   }
 
   movePlayer(plyr) {
@@ -116,7 +120,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-
     this.predators.children.iterate((child) => {
       this.movePredator(child, Phaser.Math.Between(0.8, 1.5));
     });
@@ -128,5 +131,6 @@ export default class GameScene extends Phaser.Scene {
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
       this.shootLaser();
     }
+    this.scoreText.setText("Score: " + this.score);
   }
 }
