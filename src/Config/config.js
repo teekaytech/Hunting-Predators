@@ -5,5 +5,10 @@ export default {
   parent: 'phaser-example',
   width: 800,
   height: 600,
-  backgroundColor: 'darkorange',
+  physics: {
+    default: 'arcade',
+    arcade: {
+      debug: false
+    }
+  }
 };

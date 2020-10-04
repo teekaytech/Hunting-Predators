@@ -87,16 +87,41 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('checkedBox', 'assets/ui/blue_boxCheckmark.png');
     this.load.audio('bgMusic', ['assets/TownTheme.mp3']);
     this.load.image("player", "assets/zombies.png");
+    this.load.image("laser", "assets/laser.png");
     this.load.spritesheet('predator', 'assets/predator.png', {
       frameWidth: 58, frameHeight: 59
     });
     this.load.spritesheet("predator_a", "assets/predator2.png", {
-      frameWidth: 57,
-      frameHeight: 42,
+      frameWidth: 57, frameHeight: 42,
     });
     this.load.spritesheet('explosion', 'assets/explosion.png', {
       frameWidth: 112, frameHeight: 128
     });
+  }
+
+  create() {
+    this.anims.create({
+      key: "pred_anim",
+      frames: this.anims.generateFrameNumbers("predator"),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "pred_al_anim",
+      frames: this.anims.generateFrameNumbers("predator_a"),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "explode",
+      frames: this.anims.generateFrameNumbers("explosion"),
+      frameRate: 30,
+      repeat: 0,
+      hideOnComplete: true,
+    });
+
   }
 
   ready() {

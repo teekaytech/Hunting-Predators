@@ -32,52 +32,35 @@ export default class GameScene extends Phaser.Scene {
       config.height / 2 - 100,
       "predator_a"
     );
-    this.player = this.add.image(70, config.height / 2, "player");
 
     this.predator1.setScale(0.6);
     this.predator2.setScale(0.6);
     this.predator3.setScale(0.6);
-    this.player.setScale(0.5);
-
-    this.anims.create({
-      key: "pred_anim",
-      frames: this.anims.generateFrameNumbers("predator"),
-      frameRate: 8,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: "pred_al_anim",
-      frames: this.anims.generateFrameNumbers("predator_a"),
-      frameRate: 8,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: "explode",
-      frames: this.anims.generateFrameNumbers("explosion"),
-      frameRate: 30,
-      repeat: 0,
-      hideOnComplete: true
-    });
 
     this.predator1.play("pred_anim");
     this.predator2.play("pred_anim");
     this.predator3.play("pred_anim");
     this.predator_alien.play("pred_al_anim");
 
-    //making predators destroyable
     this.predator1.setInteractive();
     this.predator2.setInteractive();
     this.predator3.setInteractive();
     this.predator_alien.setInteractive();
 
     this.input.on('gameobjectdown', this.destroyPredator, this);
+
+    //adding the player
+    this.player = this.physics.add.image(70, config.height / 2, "player");
+    this.player.setScale(0.5);
+    this.cursorKeys = this.input.keyboard.createCursorKeys();
+    this.player.setCollideWorldBounds(true);
+
+    this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
   }
 
   resetPredatorPos(pred) {
     pred.x = config.width;
-    const randomY = Phaser.Math.Between(0, config.height);
+    const randomY = Phaser.Math.Between(30, config.height - 30);
     pred.y = randomY;
   }
 
@@ -93,10 +76,33 @@ export default class GameScene extends Phaser.Scene {
     gameObject.play('explode');
   }
 
+  movePlayer(plyr) {
+    if (this.cursorKeys.left.isDown) {
+      this.player.setVelocityX(-200);
+    } else if (this.cursorKeys.right.isDown) {
+      this.player.setVelocityX(200);
+    } else {
+      this.player.setVelocityX(0);
+    }
+
+    if (this.cursorKeys.up.isDown) {
+      plyr.body.velocity.y = -200;
+    } else if (this.cursorKeys.down.isDown) {
+      plyr.body.velocity.y = 200;
+    } else {
+      this.player.setVelocityY(0);
+    }
+  }
+
   update() {
-    this.movePredator(this.predator1, 3);
+    this.movePredator(this.predator1, 2);
     this.movePredator(this.predator2, 1);
-    this.movePredator(this.predator3, 2);
-    this.movePredator(this.predator_alien, 4);
+    this.movePredator(this.predator3, 1.5);
+    this.movePredator(this.predator_alien, 3);
+    this.movePlayer(this.player);
+
+    // if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+    //   this.fireLaser();
+    // }
   }
 }
