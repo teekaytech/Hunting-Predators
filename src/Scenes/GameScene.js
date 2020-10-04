@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import config from "../Config/config";
+import Laser from '../Objects/Laser';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -56,6 +57,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.setCollideWorldBounds(true);
 
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.laserGroup = new Laser(this);
   }
 
   resetPredatorPos(pred) {
@@ -94,6 +96,10 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
+  shootLaser() {
+    this.laserGroup.fireLaser(this.player.x + 15, this.player.y + 12)
+  }
+
   update() {
     this.movePredator(this.predator1, 2);
     this.movePredator(this.predator2, 1);
@@ -101,8 +107,8 @@ export default class GameScene extends Phaser.Scene {
     this.movePredator(this.predator_alien, 3);
     this.movePlayer(this.player);
 
-    // if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-    //   this.fireLaser();
-    // }
+    if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+      this.shootLaser();
+    }
   }
 }
