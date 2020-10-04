@@ -110,7 +110,7 @@ export default class PreloaderScene extends Phaser.Scene {
     this.anims.create({
       key: "pred_al_anim",
       frames: this.anims.generateFrameNumbers("predator_a"),
-      frameRate: 8,
+      frameRate: 10,
       repeat: -1,
     });
 

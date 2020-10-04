@@ -8,45 +8,58 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    // load images
-    // this.load.image('logo', 'assets/logo.png');
   }
 
   create() {
-    this.predator1 = this.add.sprite(
+    this.predators = this.physics.add.group({
+      key: "predator", repeat: 14, setXY: { x: config.width - 20, y: 50, stepY: 60 },
+    });
+
+    this.predators.create(
       config.width - 50,
       config.height / 2 - 100,
       "predator"
     );
-    this.predator2 = this.add.sprite(
+
+    this.predators.create(
       config.width - 50,
       config.height / 2,
       "predator"
     );
-    this.predator3 = this.add.sprite(
+
+    this.predators.create(
       config.width - 50,
       config.height / 2 + 100,
       "predator"
     );
-    this.predator_alien = this.add.sprite(
+
+    this.predator_alien = this.predators.create(
+      config.width - 50,
+      config.height / 2 - 200,
+      "predator_a"
+    );
+
+    this.predator_alien2 = this.predators.create(
+      config.width - 50,
+      config.height / 2 + 200,
+      "predator_a"
+    );
+
+    this.predator_alien3 = this.predators.create(
       config.width - 50,
       config.height / 2 - 100,
       "predator_a"
     );
 
-    this.predator1.setScale(0.6);
-    this.predator2.setScale(0.6);
-    this.predator3.setScale(0.6);
+    this.predators.children.iterate(function (child) {
+      child.setScale(0.6);
+      child.play("pred_anim");
+      child.setInteractive();
+    });
 
-    this.predator1.play("pred_anim");
-    this.predator2.play("pred_anim");
-    this.predator3.play("pred_anim");
     this.predator_alien.play("pred_al_anim");
-
-    this.predator1.setInteractive();
-    this.predator2.setInteractive();
-    this.predator3.setInteractive();
-    this.predator_alien.setInteractive();
+    this.predator_alien2.play("pred_al_anim");
+    this.predator_alien3.play("pred_al_anim");
 
     this.input.on('gameobjectdown', this.destroyPredator, this);
 
@@ -58,6 +71,8 @@ export default class GameScene extends Phaser.Scene {
 
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.laserGroup = new Laser(this);
+
+    // this.physics.add.collider(this.player, platforms);
   }
 
   resetPredatorPos(pred) {
@@ -101,10 +116,13 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    this.movePredator(this.predator1, 2);
-    this.movePredator(this.predator2, 1);
-    this.movePredator(this.predator3, 1.5);
-    this.movePredator(this.predator_alien, 3);
+
+    this.predators.children.iterate((child) => {
+      this.movePredator(child, Phaser.Math.Between(0.8, 1.5));
+    });
+    this.movePredator(this.predator_alien, 0.7);
+    this.movePredator(this.predator_alien2, 1);
+    this.movePredator(this.predator_alien3, 2);
     this.movePlayer(this.player);
 
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
