@@ -72,7 +72,7 @@ export default class GameScene extends Phaser.Scene {
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.laserGroup = new Laser(this);
 
-    // this.physics.add.collider(this.player, platforms);
+    this.physics.add.overlap(this.laserGroup, this.predators, this.destroyPredator, null, this);
   }
 
   resetPredatorPos(pred) {
