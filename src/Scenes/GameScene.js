@@ -27,16 +27,28 @@ export default class GameScene extends Phaser.Scene {
       config.height / 2 + 100,
       "predator"
     );
+    this.predator_alien = this.add.sprite(
+      config.width - 50,
+      config.height / 2 - 100,
+      "predator_a"
+    );
     this.player = this.add.image(70, config.height / 2, "player");
 
-    this.predator1.setScale(0.8);
-    this.predator2.setScale(0.8);
-    this.predator3.setScale(0.8);
+    this.predator1.setScale(0.6);
+    this.predator2.setScale(0.6);
+    this.predator3.setScale(0.6);
     this.player.setScale(0.5);
 
     this.anims.create({
       key: "pred_anim",
       frames: this.anims.generateFrameNumbers("predator"),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "pred_al_anim",
+      frames: this.anims.generateFrameNumbers("predator_a"),
       frameRate: 8,
       repeat: -1,
     });
@@ -52,11 +64,13 @@ export default class GameScene extends Phaser.Scene {
     this.predator1.play("pred_anim");
     this.predator2.play("pred_anim");
     this.predator3.play("pred_anim");
+    this.predator_alien.play("pred_al_anim");
 
     //making predators destroyable
     this.predator1.setInteractive();
     this.predator2.setInteractive();
     this.predator3.setInteractive();
+    this.predator_alien.setInteractive();
 
     this.input.on('gameobjectdown', this.destroyPredator, this);
   }
@@ -83,5 +97,6 @@ export default class GameScene extends Phaser.Scene {
     this.movePredator(this.predator1, 3);
     this.movePredator(this.predator2, 1);
     this.movePredator(this.predator3, 2);
+    this.movePredator(this.predator_alien, 4);
   }
 }
