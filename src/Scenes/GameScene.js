@@ -9,60 +9,64 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
+    this.add.image(400, 300, "field");
   }
 
   create() {
+    const farm = this.physics.add.staticGroup();
+    farm.create(0, 300, "farm");
     this.predators = this.physics.add.group({
-      key: "predator", repeat: 14, setXY: { x: config.width - 20, y: 50, stepY: 60 },
+      key: "predator", repeat: 14, setXY: {
+        x: config.width - 20,
+        y: 40,
+        stepY: 50 },
     });
 
-    this.predators.create(
-      config.width - 50,
-      config.height / 2 - 100,
-      "predator"
-    );
+    // this.predators.create(
+    //   config.width - 50,
+    //   config.height / 2 - 100,
+    //   "predator"
+    // );
 
-    this.predators.create(
-      config.width - 50,
-      config.height / 2,
-      "predator"
-    );
+    // this.predators.create(
+    //   config.width - 50,
+    //   config.height / 2,
+    //   "predator"
+    // );
 
-    this.predators.create(
-      config.width - 50,
-      config.height / 2 + 100,
-      "predator"
-    );
+    // this.predators.create(
+    //   config.width - 50,
+    //   config.height / 2 + 100,
+    //   "predator"
+    // );
 
-    this.predator_alien = this.predators.create(
-      config.width - 50,
-      config.height / 2 - 200,
-      "predator_a"
-    );
+    // this.predator_alien = this.predators.create(
+    //   config.width - 50,
+    //   config.height / 2 - 200,
+    //   "predator_a"
+    // );
 
-    this.predator_alien2 = this.predators.create(
-      config.width - 50,
-      config.height / 2 + 200,
-      "predator_a"
-    );
+    // this.predator_alien2 = this.predators.create(
+    //   config.width - 50,
+    //   config.height / 2 + 200,
+    //   "predator_a"
+    // );
 
-    this.predator_alien3 = this.predators.create(
-      config.width - 50,
-      config.height / 2 - 100,
-      "predator_a"
-    );
+    // this.predator_alien3 = this.predators.create(
+    //   config.width - 50,
+    //   config.height / 2 - 100,
+    //   "predator_a"
+    // );
 
-    this.predators.children.iterate(function (child) {
+    this.predators.children.iterate((child) => {
       child.setScale(0.6);
       child.play("pred_anim");
       child.setInteractive();
     });
 
-    this.predator_alien.play("pred_al_anim");
-    this.predator_alien2.play("pred_al_anim");
-    this.predator_alien3.play("pred_al_anim");
-
-    this.input.on('gameobjectdown', this.destroyPredator, this);
+    // this.predator_alien.play("pred_al_anim");
+    // this.predator_alien2.play("pred_al_anim");
+    // this.predator_alien3.play("pred_al_anim");
 
     //adding the player
     this.player = this.physics.add.image(70, config.height / 2, "player");
@@ -75,7 +79,9 @@ export default class GameScene extends Phaser.Scene {
 
     this.physics.add.overlap(this.laserGroup, this.predators, this.destroyPredator, null, this);
 
-    this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '20px', fill: '#fff' });
+    this.scoreText = this.add.text(32, 16, 'score: 0', { fontSize: '20px', fill: '#000' });
+    this.overText = this.add.text(250, config.height/2, 'Game Over!', { fontSize: '50px', fill: '#F00' });
+    this.overText.setVisible(false);
   }
 
   resetPredatorPos(pred) {
@@ -86,30 +92,39 @@ export default class GameScene extends Phaser.Scene {
 
   movePredator(pred, speed) {
     pred.x -= speed;
-    if (pred.x <= 0) {
+    if (pred.x <= 25) {
+      this.scene.pause();
+      this.overText.setVisible(true);
+
+      setTimeout(() => {
+        this.scene.start("Title");
+      }, 3000);
       this.resetPredatorPos(pred);
     }
   }
 
   destroyPredator(pointer, gameObject) {
-    gameObject.destroy();
+    gameObject.disableBody(true, true);
     pointer.disableLaser();
     this.score += 10;
+    if (this.predators.countActive(true) === 5) {
+      gameObject.enableBody(true, true);
+    }
   }
 
   movePlayer(plyr) {
     if (this.cursorKeys.left.isDown) {
-      this.player.setVelocityX(-200);
+      this.player.setVelocityX(-300);
     } else if (this.cursorKeys.right.isDown) {
-      this.player.setVelocityX(200);
+      this.player.setVelocityX(300);
     } else {
       this.player.setVelocityX(0);
     }
 
     if (this.cursorKeys.up.isDown) {
-      plyr.body.velocity.y = -200;
+      plyr.body.velocity.y = -300;
     } else if (this.cursorKeys.down.isDown) {
-      plyr.body.velocity.y = 200;
+      plyr.body.velocity.y = 300;
     } else {
       this.player.setVelocityY(0);
     }
@@ -123,9 +138,9 @@ export default class GameScene extends Phaser.Scene {
     this.predators.children.iterate((child) => {
       this.movePredator(child, Phaser.Math.Between(0.8, 1.5));
     });
-    this.movePredator(this.predator_alien, 0.7);
-    this.movePredator(this.predator_alien2, 1);
-    this.movePredator(this.predator_alien3, 2);
+    // this.movePredator(this.predator_alien, 0.7);
+    // this.movePredator(this.predator_alien2, 1);
+    // this.movePredator(this.predator_alien3, 2);
     this.movePlayer(this.player);
 
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {

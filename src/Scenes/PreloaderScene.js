@@ -78,7 +78,7 @@ export default class PreloaderScene extends Phaser.Scene {
       this.ready();
     });
 
-    this.timedEvent = this.time.delayedCall(20000, this.ready, [], this);
+    this.timedEvent = this.time.delayedCall(50000, this.ready, [], this);
 
     // load assets needed in our game
     this.load.image('blueButton1', 'assets/ui/blue_button02.png');
@@ -88,6 +88,8 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('checkedBox', 'assets/ui/blue_boxCheckmark.png');
     this.load.audio('bgMusic', ['assets/sound/TownTheme.mp3']);
     this.load.image("player", "assets/zombies.png");
+    this.load.image("field", "assets/field.jpg");
+    this.load.image("farm", "assets/farm.png");
     this.load.spritesheet('predator', 'assets/spritesheets/predator.png', {
       frameWidth: 58, frameHeight: 59
     });
