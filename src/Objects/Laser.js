@@ -21,7 +21,7 @@ class MyLaser extends Phaser.Physics.Arcade.Sprite {
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
 
-    if (this.x > 800) {
+    if (this.x > 700) {
       this.disableLaser();
     }
   }

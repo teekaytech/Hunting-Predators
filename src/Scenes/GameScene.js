@@ -15,12 +15,21 @@ export default class GameScene extends Phaser.Scene {
   create() {
     const farm = this.physics.add.staticGroup();
     farm.create(0, 300, "farm");
+
     this.predators = this.physics.add.group({
-      key: "predator", repeat: 14, setXY: {
+      key: "predator", repeat: 10, setXY: {
         x: config.width - 20,
         y: 40,
         stepY: 50 },
     });
+
+    this.predators.children.iterate((child) => {
+      child.setScale(0.6);
+      child.play("pred_anim");
+      child.setInteractive();
+    });
+
+    console.log(this.predators.countActive(true));
 
     // this.predators.create(
     //   config.width - 50,
@@ -58,12 +67,6 @@ export default class GameScene extends Phaser.Scene {
     //   "predator_a"
     // );
 
-    this.predators.children.iterate((child) => {
-      child.setScale(0.6);
-      child.play("pred_anim");
-      child.setInteractive();
-    });
-
     // this.predator_alien.play("pred_al_anim");
     // this.predator_alien2.play("pred_al_anim");
     // this.predator_alien3.play("pred_al_anim");
@@ -76,8 +79,9 @@ export default class GameScene extends Phaser.Scene {
 
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.laserGroup = new Laser(this);
-
-    this.physics.add.overlap(this.laserGroup, this.predators, this.destroyPredator, null, this);
+    // this.physics.add.collider(this.laserGroup, this.predators, (laser, predator) => {
+    //   laser.destroy();
+    // });
 
     this.scoreText = this.add.text(32, 16, 'score: 0', { fontSize: '20px', fill: '#000' });
     this.overText = this.add.text(200, config.height/2, `Game Over!`,
@@ -93,24 +97,26 @@ export default class GameScene extends Phaser.Scene {
 
   movePredator(pred, speed) {
     pred.x -= speed;
-    if (pred.x <= 25) {
-      this.scene.pause();
-      this.overText.setText(`Game Over! Score: ${this.score}`);
-      this.overText.setVisible(true);
-      setTimeout(() => {
-        this.scene.start("Title");
-      }, 3000);
+    if (pred.x < 0) {
       this.resetPredatorPos(pred);
+
+    //   this.scene.pause();
+    //   this.overText.setText(`Game Over! Score: ${this.score}`);
+    //   this.overText.setVisible(true);
+    //   setTimeout(() => {
+    //     this.scene.start("Title");
+    //   }, 3000);
+
     }
   }
 
-  destroyPredator(pointer, gameObject) {
-    gameObject.disableBody(true, true);
-    pointer.disableLaser();
-    this.score += 10;
-    if (this.predators.countActive(true) === 5) {
-      gameObject.enableBody(true, true);
-    }
+  destroyPredator(laser, gameObject) {
+    gameObject.destroy();
+    // laser.disableLaser();
+    // this.score += 10;
+    // if (this.predators.countActive(true) === 5) {
+    //   gameObject.enableBody(true, true);
+    // }
   }
 
   movePlayer(plyr) {
@@ -136,9 +142,11 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
+
     this.predators.children.iterate((child) => {
       this.movePredator(child, Phaser.Math.Between(0.8, 1.5));
     });
+
     // this.movePredator(this.predator_alien, 0.7);
     // this.movePredator(this.predator_alien2, 1);
     // this.movePredator(this.predator_alien3, 2);
@@ -148,5 +156,13 @@ export default class GameScene extends Phaser.Scene {
       this.shootLaser();
     }
     this.scoreText.setText("Score: " + this.score);
+
+    this.physics.add.overlap(
+      this.laserGroup,
+      this.predators,
+      this.destroyPredator,
+      null,
+      this
+    );
   }
 }
