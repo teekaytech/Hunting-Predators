@@ -80,7 +80,8 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.overlap(this.laserGroup, this.predators, this.destroyPredator, null, this);
 
     this.scoreText = this.add.text(32, 16, 'score: 0', { fontSize: '20px', fill: '#000' });
-    this.overText = this.add.text(250, config.height/2, 'Game Over!', { fontSize: '50px', fill: '#F00' });
+    this.overText = this.add.text(200, config.height/2, `Game Over!`,
+    { fontSize: '30px', fill: '#F00' });
     this.overText.setVisible(false);
   }
 
@@ -94,8 +95,8 @@ export default class GameScene extends Phaser.Scene {
     pred.x -= speed;
     if (pred.x <= 25) {
       this.scene.pause();
+      this.overText.setText(`Game Over! Score: ${this.score}`);
       this.overText.setVisible(true);
-
       setTimeout(() => {
         this.scene.start("Title");
       }, 3000);
