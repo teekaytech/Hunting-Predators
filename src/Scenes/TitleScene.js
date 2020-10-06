@@ -18,8 +18,8 @@ export default class TitleScene extends Phaser.Scene {
   create() {
 
     let headerLabel = this.add
-      .text(130, 20, "Enter your name, Click `Submit`, `Play`!", {
-        fontSize: "20px",
+      .text(230, 20, "Enter your name, Click `Submit`, `Play`!", {
+        fontSize: "15px",
         // fixedWidth: 150,
         fixedHeight: 100,
       });
@@ -75,8 +75,13 @@ export default class TitleScene extends Phaser.Scene {
     this.creditsButton = new Button(this, config.width / 2, config.height / 2 + 150, 'blueButton1', 'blueButton2', 'Credits', 'Credits');
 
     this.textLabel = this.add.text(
-      config.width/2 - 200, config.height / 2 + 250, "By: Taofeek OLALERE (@teekaytech)", {
-        fontSize: "20px", });
+      230,
+      config.height / 2 + 250,
+      "By: Taofeek OLALERE (@teekaytech)",
+      {
+        fontSize: "17px",
+      }
+    );
 
     this.model = this.sys.game.globals.model;
     if (this.model.musicOn === true && this.model.bgMusicPlaying === false) {
