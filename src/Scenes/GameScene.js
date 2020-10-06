@@ -68,11 +68,20 @@ export default class GameScene extends Phaser.Scene {
       this
     );
 
+    this.physics.add.overlap(
+      this.aliens,
+      this.player,
+      this.endGame,
+      null,
+      this
+    );
+
+
     this.scoreText = this.add.text(32, 16, "score: 0", {
       fontSize: "20px",
       fill: "#000",
     });
-    this.overText = this.add.text(200, config.height / 2, `Game Over!`, {
+    this.overText = this.add.text(250, 300, `Game Over!`, {
       fontSize: "30px",
       fill: "#F00",
     });
@@ -89,7 +98,6 @@ export default class GameScene extends Phaser.Scene {
     pred.x -= speed;
     if (pred.x < 0) {
       this.resetPredatorPos(pred);
-
       //   this.scene.pause();
       //   this.overText.setText(`Game Over! Score: ${this.score}`);
       //   this.overText.setVisible(true);
@@ -97,6 +105,12 @@ export default class GameScene extends Phaser.Scene {
       //     this.scene.start("Title");
       //   }, 3000);
     }
+  }
+
+  goHome() {
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
   }
 
   destroyPredator(laser, predator) {
@@ -138,6 +152,13 @@ export default class GameScene extends Phaser.Scene {
     this.laserGroup.fireLaser(this.player.x + 15, this.player.y + 12);
   }
 
+  endGame(player, aliens) {
+    this.scene.pause();
+    this.overText.setText('You are busted!');
+    this.overText.setVisible(true);
+    this.goHome();
+  }
+
   update() {
     this.predators.children.iterate((predator) => {
       this.movePredator(predator, Phaser.Math.Between(1, 2.5));
@@ -147,12 +168,12 @@ export default class GameScene extends Phaser.Scene {
       this.movePredator(alien, Phaser.Math.Between(3, 4));
     });
 
-
     this.movePlayer(this.player);
 
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
       this.shootLaser();
     }
+
     this.scoreText.setText("Score: " + this.score);
   }
 }
