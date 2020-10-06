@@ -9,6 +9,7 @@ import CreditsScene from './Scenes/CreditsScene';
 import '../assets/style.scss';
 import Model from './Model';
 import ScoresScene from './Scenes/ScoresScene';
+import ProcessScore from './Scores/serviceApi';
 
 class Game extends Phaser.Game {
   constructor() {
@@ -27,3 +28,7 @@ class Game extends Phaser.Game {
 }
 
 window.game = new Game();
+
+console.log(ProcessScore.setScore('Taofeek', 919));
+// console.log(ProcessScore.getScores());
+// console.log(ProcessScore.makeGame());
