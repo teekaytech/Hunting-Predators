@@ -5,7 +5,6 @@ import Laser from '../Objects/Laser';
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super("Game");
-    this.score = 0;
     this.laserGroup;
   }
 
@@ -83,7 +82,7 @@ export default class GameScene extends Phaser.Scene {
       this
     );
 
-    this.scoreText = this.add.text(32, 16, "score: 0", {
+    this.scoreText = this.add.text(32, 16, 'Score: 0', {
       fontSize: "20px",
       fill: "#000",
     });
@@ -104,12 +103,6 @@ export default class GameScene extends Phaser.Scene {
     pred.x -= speed;
     if (pred.x < 0) {
       this.resetPredatorPos(pred);
-      //   this.scene.pause();
-      //   this.overText.setText(`Game Over! Score: ${this.score}`);
-      //   this.overText.setVisible(true);
-      //   setTimeout(() => {
-      //     this.scene.start("Title");
-      //   }, 3000);
     }
   }
 
@@ -133,7 +126,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   updateScore() {
-    this.score += 10;
+    config.playerScore += 10;
   }
 
   movePlayer(plyr) {
@@ -175,7 +168,7 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     this.predators.children.iterate((predator) => {
-      this.movePredator(predator, Phaser.Math.Between(1, 2.5));
+      this.movePredator(predator, Phaser.Math.Between(1, 1.8));
     });
 
     this.aliens.children.iterate((alien) => {
@@ -186,8 +179,9 @@ export default class GameScene extends Phaser.Scene {
 
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
       this.shootLaser();
+      console.log(config.playerName, config.playerScore);
     }
 
-    this.scoreText.setText("Score: " + this.score);
+    this.scoreText.setText("Score: " + config.playerScore);
   }
 }
