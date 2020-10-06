@@ -87,28 +87,28 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('laser', 'assets/laser.png');
     this.load.image('checkedBox', 'assets/ui/blue_boxCheckmark.png');
     this.load.audio('bgMusic', ['assets/sound/TownTheme.mp3']);
-    this.load.image("player", "assets/zombies.png");
-    this.load.image("field", "assets/field.jpg");
-    this.load.image("farm", "assets/farm.png");
+    this.load.image('player', 'assets/zombies.png');
+    this.load.image('field', 'assets/field.jpg');
+    this.load.image('farm', 'assets/farm.png');
     this.load.spritesheet('predator', 'assets/spritesheets/predator.png', {
-      frameWidth: 58, frameHeight: 59
+      frameWidth: 58, frameHeight: 59,
     });
-    this.load.spritesheet("predator_a", "assets/spritesheets/predator2.png", {
+    this.load.spritesheet('predator_a', 'assets/spritesheets/predator2.png', {
       frameWidth: 57, frameHeight: 42,
     });
   }
 
   create() {
     this.anims.create({
-      key: "pred_anim",
-      frames: this.anims.generateFrameNumbers("predator"),
+      key: 'pred_anim',
+      frames: this.anims.generateFrameNumbers('predator'),
       frameRate: 8,
       repeat: -1,
     });
 
     this.anims.create({
-      key: "pred_al_anim",
-      frames: this.anims.generateFrameNumbers("predator_a"),
+      key: 'pred_al_anim',
+      frames: this.anims.generateFrameNumbers('predator_a'),
       frameRate: 10,
       repeat: -1,
     });

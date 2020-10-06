@@ -1,10 +1,14 @@
+/* eslint-disable max-classes-per-file */
+
+import Phaser from 'phaser';
+
 class MyLaser extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'laser');
   }
 
-  fire(x,y) {
-    this.body.reset(x,y);
+  fire(x, y) {
+    this.body.reset(x, y);
     this.setActive(true);
     this.setVisible(true);
     this.setScale(2.5);
@@ -30,14 +34,14 @@ export default class Laser extends Phaser.Physics.Arcade.Group {
       frameQuantity: 30,
       active: false,
       visible: false,
-      key: "laser",
+      key: 'laser',
     });
   }
 
-  fireLaser(x,y) {
+  fireLaser(x, y) {
     const laser = this.getFirstDead(false);
     if (laser) {
-      laser.fire(x,y);
+      laser.fire(x, y);
     }
   }
 }

@@ -1,24 +1,26 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable class-methods-use-this */
+
 import Phaser from 'phaser';
-import config from "../Config/config";
+import config from '../Config/config';
 import Laser from '../Objects/Laser';
-import ProcessScore from "../Scores/serviceApi";
+import ProcessScore from '../Scores/serviceApi';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
-    super("Game");
-    this.laserGroup;
+    super('Game');
   }
 
   preload() {
-    this.add.image(400, 300, "field");
+    this.add.image(400, 300, 'field');
   }
 
   create() {
     const farm = this.physics.add.staticGroup();
-    farm.create(0, 300, "farm");
+    farm.create(0, 300, 'farm');
 
     this.predators = this.physics.add.group({
-      key: "predator",
+      key: 'predator',
       repeat: 10,
       setXY: {
         x: config.width - 20,
@@ -28,7 +30,7 @@ export default class GameScene extends Phaser.Scene {
     });
 
     this.aliens = this.physics.add.group({
-      key: "predator_a",
+      key: 'predator_a',
       repeat: 4,
       setXY: {
         x: config.width - 40,
@@ -39,23 +41,23 @@ export default class GameScene extends Phaser.Scene {
 
     this.predators.children.iterate((predator) => {
       predator.setScale(0.6);
-      predator.play("pred_anim");
+      predator.play('pred_anim');
       predator.setInteractive();
     });
 
     this.aliens.children.iterate((alien) => {
       alien.setScale(0.6);
-      alien.play("pred_al_anim");
+      alien.play('pred_al_anim');
     });
 
-    //adding the player
-    this.player = this.physics.add.image(70, config.height / 2, "player");
+    // adding the player
+    this.player = this.physics.add.image(70, config.height / 2, 'player');
     this.player.setScale(0.5);
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.player.setCollideWorldBounds(true);
 
     this.spacebar = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.SPACE
+      Phaser.Input.Keyboard.KeyCodes.SPACE,
     );
     this.laserGroup = new Laser(this);
 
@@ -64,7 +66,7 @@ export default class GameScene extends Phaser.Scene {
       this.predators,
       this.destroyPredator,
       null,
-      this
+      this,
     );
 
     this.physics.add.overlap(
@@ -72,7 +74,7 @@ export default class GameScene extends Phaser.Scene {
       this.player,
       this.endGame,
       null,
-      this
+      this,
     );
 
     this.physics.add.overlap(
@@ -80,24 +82,24 @@ export default class GameScene extends Phaser.Scene {
       farm,
       this.looseGame,
       null,
-      this
+      this,
     );
 
     this.scoreText = this.add.text(32, 16, 'Score: 0', {
-      fontSize: "20px",
-      fill: "#000",
+      fontSize: '20px',
+      fill: '#000',
     });
-    this.overText = this.add.text(250, 300, `Game Over!`, {
-      fontSize: "30px",
-      fill: "#F00",
+    this.overText = this.add.text(250, 300, 'Game Over!', {
+      fontSize: '30px',
+      fill: '#F00',
     });
     this.overText.setVisible(false);
   }
 
   resetPredatorPos(pred) {
     pred.x = config.width;
-    const randomY = Phaser.Math.Between(30, config.height - 30);
-    pred.y = randomY;
+    this.randomY = Phaser.Math.Between(30, config.height - 30);
+    pred.y = this.randomY;
   }
 
   movePredator(pred, speed) {
@@ -161,16 +163,16 @@ export default class GameScene extends Phaser.Scene {
   }
 
   endGame() {
-    this.prepareEnd("You are busted");
+    this.prepareEnd('You are busted');
   }
 
   looseGame() {
-    this.prepareEnd("Predators Win. Game Over!");
+    this.prepareEnd('Predators Win. Game Over!');
   }
 
   submitScore() {
     if (config.playerName !== '' && config.playerScore !== 0) {
-      console.log(ProcessScore.setScore(config.playerName, config.playerScore));
+      ProcessScore.setScore(config.playerName, config.playerScore);
     }
   }
 
@@ -189,7 +191,7 @@ export default class GameScene extends Phaser.Scene {
       this.shootLaser();
     }
 
-    this.scoreText.setText("Score: " + config.playerScore);
+    this.scoreText.setText(`Score: ${config.playerScore}`);
 
     if (!config.gameOn) {
       this.submitScore();
