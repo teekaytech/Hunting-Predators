@@ -28,13 +28,13 @@ export default class GameScene extends Phaser.Scene {
     });
 
     this.aliens = this.physics.add.group({
-      key: 'predator_a',
+      key: "predator_a",
       repeat: 4,
       setXY: {
         x: config.width - 40,
         y: config.height / 2 - 200,
-        stepY: Phaser.Math.Between(45, 60)
-      }
+        stepY: Phaser.Math.Between(45, 60),
+      },
     });
 
     this.predators.children.iterate((predator) => {
@@ -59,7 +59,6 @@ export default class GameScene extends Phaser.Scene {
     );
     this.laserGroup = new Laser(this);
 
-    // this.physics.add.collider(this.laserGroup, this.predators);
     this.physics.add.overlap(
       this.laserGroup,
       this.predators,
@@ -76,6 +75,13 @@ export default class GameScene extends Phaser.Scene {
       this
     );
 
+    this.physics.add.overlap(
+      this.predators,
+      farm,
+      this.looseGame,
+      null,
+      this
+    );
 
     this.scoreText = this.add.text(32, 16, "score: 0", {
       fontSize: "20px",
@@ -116,14 +122,14 @@ export default class GameScene extends Phaser.Scene {
   destroyPredator(laser, predator) {
     predator.setActive(false);
     predator.setVisible(false);
-    this.resetPredatorPos(predator)
+    this.resetPredatorPos(predator);
     this.updateScore();
     if (this.predators.getTotalUsed() === 4) {
       this.predators.children.iterate((child) => {
         child.setActive(true);
         child.setVisible(true);
       });
-    };
+    }
   }
 
   updateScore() {
@@ -152,11 +158,19 @@ export default class GameScene extends Phaser.Scene {
     this.laserGroup.fireLaser(this.player.x + 15, this.player.y + 12);
   }
 
-  endGame(player, aliens) {
+  prepareEnd(text) {
     this.scene.pause();
-    this.overText.setText('You are busted!');
+    this.overText.setText(text);
     this.overText.setVisible(true);
     this.goHome();
+  }
+
+  endGame() {
+    this.prepareEnd("You are busted");
+  }
+
+  looseGame() {
+    this.prepareEnd("Predators Win. Game Over!");
   }
 
   update() {

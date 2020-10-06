@@ -2,13 +2,13 @@ import Phaser from 'phaser';
 
 export default {
   type: Phaser.AUTO,
-  parent: 'phaser-example',
+  parent: "phaser-example",
   width: 800,
   height: 600,
   physics: {
-    default: 'arcade',
+    default: "arcade",
     arcade: {
-      debug: false
-    }
-  }
+      debug: false,
+    },
+  },
 };
