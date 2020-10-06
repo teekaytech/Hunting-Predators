@@ -1,5 +1,3 @@
-const axios = require("axios");
-
 const ProcessScore = (() => {
   const url = "https://us-central1-js-capstone-backend.cloudfunctions.net/api/";
   const appName = { name: "Hunting Predators" };
