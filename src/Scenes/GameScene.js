@@ -84,6 +84,7 @@ export default class GameScene extends Phaser.Scene {
     );
     this.laserGroup = new Laser(this);
 
+    // this.physics.add.collider(this.laserGroup, this.predators);
     this.physics.add.overlap(
       this.laserGroup,
       this.predators,
@@ -126,9 +127,9 @@ export default class GameScene extends Phaser.Scene {
   destroyPredator(laser, predator) {
     predator.setActive(false);
     predator.setVisible(false);
+    this.resetPredatorPos(predator)
     this.updateScore();
-    if (this.predators.getTotalUsed() === 2) {
-      let i = 1;
+    if (this.predators.getTotalUsed() === 4) {
       this.predators.children.iterate((child) => {
         child.setActive(true);
         child.setVisible(true);
