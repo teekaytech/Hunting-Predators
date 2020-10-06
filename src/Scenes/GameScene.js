@@ -83,7 +83,13 @@ export default class GameScene extends Phaser.Scene {
 
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.laserGroup = new Laser(this);
-
+    this.physics.add.overlap(
+      this.laserGroup,
+      this.predators,
+      this.destroyPredator,
+      null,
+      this
+    );
     this.scoreText = this.add.text(32, 16, "score: 0", {
       fontSize: "20px",
       fill: "#000",
@@ -116,8 +122,9 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  destroyPredator(laser, gameObject) {
-    gameObject.destroy();
+  destroyPredator(laser, predator) {
+      predator.setActive(false);
+      predator.setVisible(false);
     // laser.disableLaser();
     // this.score += 10;
     // if (this.predators.countActive(true) === 5) {
@@ -161,13 +168,5 @@ export default class GameScene extends Phaser.Scene {
           this.shootLaser();
         }
     this.scoreText.setText("Score: " + this.score);
-
-    // this.physics.add.overlap(
-    //   this.laserGroup,
-    //   this.predators,
-    //   this.destroyPredator,
-    //   null,
-    //   this
-    // );
   }
 }
