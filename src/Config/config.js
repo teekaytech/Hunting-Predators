@@ -16,5 +16,6 @@ export default {
     },
   },
   playerName: '',
-  playerScore: 0
+  playerScore: 0,
+  gameOn: true
 };

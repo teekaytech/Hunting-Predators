@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import config from "../Config/config";
 import Laser from '../Objects/Laser';
+import ProcessScore from "../Scores/serviceApi";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -107,6 +108,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   goHome() {
+    config.gameOn = false;
     setTimeout(() => {
       location.reload();
     }, 2000);
@@ -166,6 +168,12 @@ export default class GameScene extends Phaser.Scene {
     this.prepareEnd("Predators Win. Game Over!");
   }
 
+  submitScore() {
+    if (config.playerName !== '' && config.playerScore !== 0) {
+      console.log(ProcessScore.setScore(config.playerName, config.playerScore));
+    }
+  }
+
   update() {
     this.predators.children.iterate((predator) => {
       this.movePredator(predator, Phaser.Math.Between(1, 1.8));
@@ -179,9 +187,12 @@ export default class GameScene extends Phaser.Scene {
 
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
       this.shootLaser();
-      console.log(config.playerName, config.playerScore);
     }
 
     this.scoreText.setText("Score: " + config.playerScore);
+
+    if (!config.gameOn) {
+      this.submitScore();
+    }
   }
 }
