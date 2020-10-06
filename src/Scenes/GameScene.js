@@ -27,51 +27,26 @@ export default class GameScene extends Phaser.Scene {
       },
     });
 
-    this.predators.children.iterate((child) => {
-      child.setScale(0.6);
-      child.play("pred_anim");
-      child.setInteractive();
+    this.aliens = this.physics.add.group({
+      key: 'predator_a',
+      repeat: 4,
+      setXY: {
+        x: config.width - 40,
+        y: config.height / 2 - 200,
+        stepY: Phaser.Math.Between(45, 60)
+      }
     });
 
-    // this.predators.create(
-    //   config.width - 50,
-    //   config.height / 2 - 100,
-    //   "predator"
-    // );
+    this.predators.children.iterate((predator) => {
+      predator.setScale(0.6);
+      predator.play("pred_anim");
+      predator.setInteractive();
+    });
 
-    // this.predators.create(
-    //   config.width - 50,
-    //   config.height / 2,
-    //   "predator"
-    // );
-
-    // this.predators.create(
-    //   config.width - 50,
-    //   config.height / 2 + 100,
-    //   "predator"
-    // );
-
-    // this.predator_alien = this.predators.create(
-    //   config.width - 50,
-    //   config.height / 2 - 200,
-    //   "predator_a"
-    // );
-
-    // this.predator_alien2 = this.predators.create(
-    //   config.width - 50,
-    //   config.height / 2 + 200,
-    //   "predator_a"
-    // );
-
-    // this.predator_alien3 = this.predators.create(
-    //   config.width - 50,
-    //   config.height / 2 - 100,
-    //   "predator_a"
-    // );
-
-    // this.predator_alien.play("pred_al_anim");
-    // this.predator_alien2.play("pred_al_anim");
-    // this.predator_alien3.play("pred_al_anim");
+    this.aliens.children.iterate((alien) => {
+      alien.setScale(0.6);
+      alien.play("pred_al_anim");
+    });
 
     //adding the player
     this.player = this.physics.add.image(70, config.height / 2, "player");
@@ -164,13 +139,15 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    this.predators.children.iterate((child) => {
-      this.movePredator(child, Phaser.Math.Between(1, 2.5));
+    this.predators.children.iterate((predator) => {
+      this.movePredator(predator, Phaser.Math.Between(1, 2.5));
     });
 
-    // this.movePredator(this.predator_alien, 0.7);
-    // this.movePredator(this.predator_alien2, 1);
-    // this.movePredator(this.predator_alien3, 2);
+    this.aliens.children.iterate((alien) => {
+      this.movePredator(alien, Phaser.Math.Between(3, 4));
+    });
+
+
     this.movePlayer(this.player);
 
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
