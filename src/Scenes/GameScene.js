@@ -33,8 +33,6 @@ export default class GameScene extends Phaser.Scene {
       child.setInteractive();
     });
 
-    console.log(this.predators.countActive(true));
-
     // this.predators.create(
     //   config.width - 50,
     //   config.height / 2 - 100,
@@ -81,8 +79,11 @@ export default class GameScene extends Phaser.Scene {
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.player.setCollideWorldBounds(true);
 
-    this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.spacebar = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
     this.laserGroup = new Laser(this);
+
     this.physics.add.overlap(
       this.laserGroup,
       this.predators,
@@ -90,6 +91,7 @@ export default class GameScene extends Phaser.Scene {
       null,
       this
     );
+
     this.scoreText = this.add.text(32, 16, "score: 0", {
       fontSize: "20px",
       fill: "#000",
@@ -112,24 +114,30 @@ export default class GameScene extends Phaser.Scene {
     if (pred.x < 0) {
       this.resetPredatorPos(pred);
 
-    //   this.scene.pause();
-    //   this.overText.setText(`Game Over! Score: ${this.score}`);
-    //   this.overText.setVisible(true);
-    //   setTimeout(() => {
-    //     this.scene.start("Title");
-    //   }, 3000);
-
+      //   this.scene.pause();
+      //   this.overText.setText(`Game Over! Score: ${this.score}`);
+      //   this.overText.setVisible(true);
+      //   setTimeout(() => {
+      //     this.scene.start("Title");
+      //   }, 3000);
     }
   }
 
   destroyPredator(laser, predator) {
-      predator.setActive(false);
-      predator.setVisible(false);
-    // laser.disableLaser();
-    // this.score += 10;
-    // if (this.predators.countActive(true) === 5) {
-    //   gameObject.enableBody(true, true);
-    // }
+    predator.setActive(false);
+    predator.setVisible(false);
+    this.updateScore();
+    if (this.predators.getTotalUsed() === 2) {
+      let i = 1;
+      this.predators.children.iterate((child) => {
+        child.setActive(true);
+        child.setVisible(true);
+      });
+    };
+  }
+
+  updateScore() {
+    this.score += 10;
   }
 
   movePlayer(plyr) {
@@ -151,7 +159,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   shootLaser() {
-    this.laserGroup.fireLaser(this.player.x + 15, this.player.y + 12)
+    this.laserGroup.fireLaser(this.player.x + 15, this.player.y + 12);
   }
 
   update() {
@@ -165,8 +173,8 @@ export default class GameScene extends Phaser.Scene {
     this.movePlayer(this.player);
 
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-          this.shootLaser();
-        }
+      this.shootLaser();
+    }
     this.scoreText.setText("Score: " + this.score);
   }
 }
