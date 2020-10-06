@@ -6,6 +6,7 @@ export default class GameScene extends Phaser.Scene {
   constructor() {
     super("Game");
     this.score = 0;
+    this.laserGroup;
   }
 
   preload() {
@@ -17,10 +18,13 @@ export default class GameScene extends Phaser.Scene {
     farm.create(0, 300, "farm");
 
     this.predators = this.physics.add.group({
-      key: "predator", repeat: 10, setXY: {
+      key: "predator",
+      repeat: 10,
+      setXY: {
         x: config.width - 20,
         y: 40,
-        stepY: 50 },
+        stepY: 50,
+      },
     });
 
     this.predators.children.iterate((child) => {
@@ -79,13 +83,15 @@ export default class GameScene extends Phaser.Scene {
 
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.laserGroup = new Laser(this);
-    // this.physics.add.collider(this.laserGroup, this.predators, (laser, predator) => {
-    //   laser.destroy();
-    // });
 
-    this.scoreText = this.add.text(32, 16, 'score: 0', { fontSize: '20px', fill: '#000' });
-    this.overText = this.add.text(200, config.height/2, `Game Over!`,
-    { fontSize: '30px', fill: '#F00' });
+    this.scoreText = this.add.text(32, 16, "score: 0", {
+      fontSize: "20px",
+      fill: "#000",
+    });
+    this.overText = this.add.text(200, config.height / 2, `Game Over!`, {
+      fontSize: "30px",
+      fill: "#F00",
+    });
     this.overText.setVisible(false);
   }
 
@@ -142,9 +148,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-
     this.predators.children.iterate((child) => {
-      this.movePredator(child, Phaser.Math.Between(0.8, 1.5));
+      this.movePredator(child, Phaser.Math.Between(1, 2.5));
     });
 
     // this.movePredator(this.predator_alien, 0.7);
@@ -153,16 +158,16 @@ export default class GameScene extends Phaser.Scene {
     this.movePlayer(this.player);
 
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-      this.shootLaser();
-    }
+          this.shootLaser();
+        }
     this.scoreText.setText("Score: " + this.score);
 
-    this.physics.add.overlap(
-      this.laserGroup,
-      this.predators,
-      this.destroyPredator,
-      null,
-      this
-    );
+    // this.physics.add.overlap(
+    //   this.laserGroup,
+    //   this.predators,
+    //   this.destroyPredator,
+    //   null,
+    //   this
+    // );
   }
 }
