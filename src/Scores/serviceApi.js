@@ -24,30 +24,32 @@ const ProcessScore = (() => {
 
   const setScore = async (pName, points) => {
     endpoint = `${url}games/${id}/scores/`;
+    try {
       const response = await fetch(endpoint, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({user: pName, score: points}),
-    });
-    const output = await response.json();
-    return output;
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ user: pName, score: points }),
+      });
+      const output = await response.json();
+      return output;
+    } catch (error) {
+      return false;
+    }
   }
 
   const getScores = async () => {
-    const proxyurl = "https://cors-anywhere.herokuapp.com/"
-    endpoint = `${proxyurl}${url}games/${id}/scores/`;
+    endpoint = `${url}games/${id}/scores/`;
     try {
-      const response = await axios.get(endpoint, {
-        mode: "no-cors",
-      });
-      return response.json();
+      const response = await fetch(endpoint);
+      const scores = await response.json();
+      return scores;
     } catch (error) {
-      console.error('----------------->',error);
+      return false;
     }
   }
 

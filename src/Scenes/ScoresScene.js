@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import ProcessScore from "../Scores/serviceApi";
 
 export default class ScoresScene extends Phaser.Scene {
   constructor() {
@@ -12,6 +13,6 @@ export default class ScoresScene extends Phaser.Scene {
 
   create() {
     this.add.image(400, 300, 'logo');
-    // this.add.text(20, 20, "hello world");
+    this.add.text(20, 20, "hello world");
   }
 }
