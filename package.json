@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "jest",
+    "dev": "webpack --mode development",
     "build": "webpack",
-    "dev": "npm run dev",
     "start": "npm run build && webpack-dev-server --open"
   },
   "repository": {
@@ -20,7 +20,11 @@
   },
   "homepage": "https://github.com/teekaytech/Hunting-Predators#readme",
   "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
+    "babel-jest": "^26.5.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "css-loader": "^2.1.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
@@ -39,6 +43,7 @@
     "webpack-dev-server": "^2.11.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.11.2",
     "axios": "^0.20.0",
     "phaser": "^3.3.0"
   }

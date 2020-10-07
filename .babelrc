@@ -1,14 +1,4 @@
 {
-  "presets": [
-    [
-      "@babel/env",
-      "@babel/preset-env",
-      {
-        "targets": {
-          "browsers": [">0.25%", "not ie 11", "not op_mini all"]
-        },
-        "modules": false
-      }
-    ]
-  ]
+  "presets": [["@babel/preset-env", { "targets": "defaults" }]],
+  "plugins": [["@babel/transform-runtime"]]
 }
