@@ -13,10 +13,8 @@ export default class ScoresScene extends Phaser.Scene {
       fontSize: '40px',
     });
     ProcessScore.getScores().then((response) => {
-      let iterations = 15;
-      if (response.result.length <= 15) {
-        iterations = response.result.length;
-      }
+      const sorted = this.sortScores(response.result);
+      const iterations = this.getIterations(sorted);
       for (let index = 0; index < iterations; index += 1) {
         this.add.text(90, 100 + index * 30, index + 1, {
           fontSize: '20px',
@@ -31,5 +29,17 @@ export default class ScoresScene extends Phaser.Scene {
     });
 
     this.menuButton = new Button(this, 700, 550, 'blueButton1', 'blueButton2', 'Menu', 'Title');
+  }
+
+  sortScores(unsorted) {
+    return unsorted.sort((a, b) => b.score - a.score );
+  }
+
+  getIterations(result) {
+    let times = 15;
+    if (result.length <= 15) {
+      times = result.length;
+    }
+    return times;
   }
 }
