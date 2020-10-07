@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import config from '../Config/config';
 import Button from '../Objects/Button';
 import ProcessScore from '../Scores/serviceApi';
-import Utils from "../Objects/utils";
+import Utils from '../Objects/utils';
 
 export default class ScoresScene extends Phaser.Scene {
   constructor() {
