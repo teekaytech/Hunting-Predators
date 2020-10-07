@@ -12,7 +12,9 @@
 
 ## Live Demo
 
-[Live Demo Link](https://star-fall.netlify.app/)
+[Live Demo Link](https://hunting-predators.netlify.app/)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/70db9535-a6bb-4650-9f4a-55f45fec4bed/deploy-status)](https://app.netlify.com/sites/hunting-predators/deploys)
 
 ![screenshot](assets/screenshot.png)
 
@@ -35,12 +37,14 @@
 
 ### Usage
 
-- Click the [Live Demo Link](https://star-fall.netlify.app/) to play the game.
+- Click the [Live Demo Link](https://hunting-predators.netlify.app/) to play the game.
 
 ### Running on Local PC
 
 ##### To run the game on your local PC, Open your command prompt (Terminal) and follow the instructions below:
+
 _On your terminal, execute the following `commands`:_
+
 - Clone the repository: `git clone https://github.com/teekaytech/Hunting-Predators.git`
 - Navitage into the repository root folder with `cd Hunting-Predators`
 - Install the dependencies with `npm install`
@@ -77,7 +81,6 @@ _On your terminal, execute the following `commands`:_
 - Your objective is to survive with the highest possible score.
 
 <p id='passthrough'></p>
-
 
 ### Input Your Name
 
@@ -123,6 +126,7 @@ _On your terminal, execute the following `commands`:_
 ### Testing the Game
 
 _To test the game, run the following commands on your terminal:_
+
 - Clone the repository: `git clone https://github.com/teekaytech/Hunting-Predators.git`
 - Navitage into the repository root folder with `cd Hunting-Predators`
 - Install the dependencies with `npm install`
@@ -165,7 +169,6 @@ Give a ⭐️ if you like this project!
 - [phasertutorials.com](https://phasertutorials.com/creating-a-phaser-3-template-part-1/)
 - [Phaser 3 Examples](https://labs.phaser.io/index.html?dir=scenes/&q=)
 - [Phaser official documentation](http://phaser.io/tutorials/making-your-first-phaser-3-game/part8)
-
 
 ## 📝 License
 
