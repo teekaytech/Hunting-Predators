@@ -14,7 +14,7 @@ export default {
       debug: false,
     },
   },
-  playerName: '',
+  playerName: 'Guest Player',
   playerScore: 0,
   gameOn: true,
 };

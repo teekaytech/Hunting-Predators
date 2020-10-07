@@ -171,7 +171,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   submitScore() {
-    if (config.playerName !== '' && config.playerScore !== 0) {
+    if (config.playerScore !== 0) {
       ProcessScore.setScore(config.playerName, config.playerScore);
     }
   }
