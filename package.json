@@ -4,6 +4,7 @@
   "description": "A game application built with JavaScript, Webpack and Webpack",
   "main": "src/index.js",
   "scripts": {
+    "test": "jest",
     "build": "webpack",
     "dev": "npm run dev",
     "start": "npm run build && webpack-dev-server --open"
@@ -25,6 +26,7 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "file-loader": "^6.1.0",
+    "jest": "^26.5.2",
     "raw-loader": "^0.5.1",
     "sass": "^1.26.10",
     "sass-loader": "^7.3.1",
